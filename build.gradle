@@ -48,8 +48,8 @@ subprojects {
     dependencies {
         implementation 'org.springframework.boot:spring-boot-starter'
         implementation 'org.springframework.boot:spring-boot-starter-web'
-        implementation 'com.alibaba.spring.boot:dubbo-spring-boot-starter:2.0.0'
-        implementation 'com.101tec:zkclient:0.10'
+        implementation 'org.apache.dubbo:dubbo-spring-boot-starter:2.7.4.1'
+        implementation 'org.apache.dubbo:dubbo-dependencies-zookeeper:2.7.4.1'
 
         implementation 'commons-io:commons-io:2.6'
         implementation 'commons-codec:commons-codec:1.13'

@@ -1,6 +1,6 @@
 package com.topsail.crm.order;
 
-import com.alibaba.dubbo.spring.boot.annotation.EnableDubboConfiguration;
+import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -10,7 +10,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  * @date 2019-12-16
  */
 @EnableScheduling
-@EnableDubboConfiguration
+@EnableDubbo
 @SpringBootApplication
 public class OrderApplication {
     public static void main(String[] args) {

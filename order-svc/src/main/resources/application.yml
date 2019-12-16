@@ -1,11 +1,18 @@
 server.port: 8080
 
 # Dubbo 配置
-spring.dubbo:
-  application.name: crm-order
+dubbo:
+  application:
+    name: crm-order
   server: true
   protocol:
     host: 192.168.37.1
     name: dubbo
     port: 20880
-  registry.address: zookeeper://127.0.0.1:2181
+  registry:
+    address: zookeeper://127.0.0.1:2181
+  metadata-report:
+    address: zookeeper://127.0.0.1:2181
+  version: 1.0.0
+  scan:
+    base-packages: com.topsail.crm.order.modules
