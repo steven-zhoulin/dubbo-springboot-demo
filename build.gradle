@@ -49,7 +49,10 @@ subprojects {
         implementation 'org.springframework.boot:spring-boot-starter'
         implementation 'org.springframework.boot:spring-boot-starter-web'
         implementation 'org.apache.dubbo:dubbo-spring-boot-starter:2.7.4.1'
-        implementation 'org.apache.dubbo:dubbo-dependencies-zookeeper:2.7.4.1'
+        implementation ('org.apache.dubbo:dubbo-dependencies-zookeeper:2.7.4.1') {
+            exclude group: 'org.slf4j'
+            exclude group: 'log4j'
+        }
 
         implementation 'commons-io:commons-io:2.6'
         implementation 'commons-codec:commons-codec:1.13'
@@ -67,6 +70,6 @@ subprojects {
 
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
         implementation 'junit:junit:4.12'
-        implementation 'log4j:log4j:1.2.17'
+//        implementation 'log4j:log4j:1.2.17'
     }
 }
