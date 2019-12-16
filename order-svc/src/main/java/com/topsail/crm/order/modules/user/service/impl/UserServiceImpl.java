@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  */
 @Service(interfaceClass = IUserService.class, version = "1.0.0")
 @Component
-public class HelloServiceImpl implements IUserService {
+public class UserServiceImpl implements IUserService {
 
     /**
      * Say Hello
