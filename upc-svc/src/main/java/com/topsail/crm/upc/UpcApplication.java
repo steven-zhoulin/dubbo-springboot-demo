@@ -1,4 +1,4 @@
-package com.topsail.order;
+package com.topsail.crm.upc;
 
 import com.alibaba.dubbo.spring.boot.annotation.EnableDubboConfiguration;
 import org.springframework.boot.SpringApplication;
@@ -10,8 +10,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @EnableDubboConfiguration
 @SpringBootApplication
-public class OrderApplication {
+public class UpcApplication {
     public static void main(String[] args) {
-        SpringApplication.run(OrderApplication.class, args);
+        SpringApplication.run(UpcApplication.class, args);
     }
 }

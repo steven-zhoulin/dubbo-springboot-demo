@@ -5,6 +5,7 @@ spring.dubbo:
   application.name: crm-upc
   server: true
   protocol:
+    host: 192.168.37.1
     name: dubbo
-    port: 20880
+    port: 20881
   registry.address: zookeeper://127.0.0.1:2181
