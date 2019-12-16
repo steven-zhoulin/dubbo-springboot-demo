@@ -1,0 +1,10 @@
+server.port: 8080
+
+# Dubbo 配置
+spring.dubbo:
+  application.name: crm-order
+  server: true
+  protocol:
+    name: dubbo
+    port: 20880
+  registry.address: zookeeper://127.0.0.1:2181
