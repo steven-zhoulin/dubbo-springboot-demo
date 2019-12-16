@@ -1,12 +1,10 @@
 package com.topsail.crm.order.modules.user.task;
 
-import com.alibaba.dubbo.config.annotation.Reference;
-import com.topsail.crm.order.modules.user.entity.po.User;
-import com.topsail.crm.order.modules.user.service.IUserService;
 import com.topsail.crm.upc.modules.product.entity.po.Product;
 import com.topsail.crm.upc.modules.product.service.IProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomUtils;
+import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 

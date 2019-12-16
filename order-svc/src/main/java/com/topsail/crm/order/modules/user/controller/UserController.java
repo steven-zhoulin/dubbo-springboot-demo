@@ -1,9 +1,9 @@
 package com.topsail.crm.order.modules.user.controller;
 
-import com.alibaba.dubbo.config.annotation.Reference;
 import com.topsail.crm.upc.modules.product.entity.po.Product;
 import com.topsail.crm.upc.modules.product.service.IProductService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;

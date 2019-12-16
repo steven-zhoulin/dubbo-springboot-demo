@@ -1,9 +1,9 @@
 package com.topsail.crm.upc.modules.product.service.impl;
 
-import com.alibaba.dubbo.config.annotation.Service;
 import com.topsail.crm.upc.modules.product.entity.po.Product;
 import com.topsail.crm.upc.modules.product.service.IProductService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.dubbo.config.annotation.Service;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;

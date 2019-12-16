@@ -1,8 +1,8 @@
 package com.topsail.crm.order.modules.user.service.impl;
 
-import com.alibaba.dubbo.config.annotation.Service;
 import com.topsail.crm.order.modules.user.entity.po.User;
 import com.topsail.crm.order.modules.user.service.IUserService;
+import org.apache.dubbo.config.annotation.Service;
 import org.springframework.stereotype.Component;
 
 /**
