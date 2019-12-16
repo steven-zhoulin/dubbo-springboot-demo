@@ -15,4 +15,5 @@ include 'order-svc'
 
 include 'upc-api'
 include 'upc-svc'
+include 'upc-api'
 
