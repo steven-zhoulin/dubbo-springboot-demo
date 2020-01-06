@@ -1,5 +1,10 @@
 server.port: 8080
 
+# 日志
+logging:
+  level:
+    root: debug
+
 # Dubbo 配置
 dubbo:
   application:
@@ -16,3 +21,52 @@ dubbo:
   version: 1.0.0
   scan:
     base-packages: com.topsail.crm.order.modules
+
+spring:
+  datasource:
+    atomikos:
+      base:
+        uniqueResourceName: base
+        driverClassName: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://127.0.0.1:3306/base?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=GMT%2B8
+        user: root
+        password: 1q1w1e1r
+        minPoolSize: 2
+        maxPoolSize: 5
+        maxIdleTime: 60
+        maxLifetime: 1200
+        maintenanceInterval: 60
+
+      ord:
+        uniqueResourceName: ord
+        driverClassName: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://127.0.0.1:3306/ord?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=GMT%2B8
+        user: root
+        password: 1q1w1e1r
+        minPoolSize: 2
+        maxPoolSize: 5
+        maxIdleTime: 60
+        maxLifetime: 1200
+        maintenanceInterval: 60
+
+  jta:
+    atomikos:
+      properties:
+        log-base-name: order-tmlog
+        default-jta-timeout: 60000
+        log-base-dir: ../logs
+    transaction-manager-id: tx
+
+  cache:
+    # 指定缓存类型: none(禁用缓存), simple(用于开发), redis（用于生产）
+    type: simple
+
+  session:
+    # session 的存储方式，开发模式（本地）：none，生产模式（分布式缓存）：redis
+    store-type: none
+    timeout: 1800
+
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml
+  configuration:
+    default-fetch-size: 512
