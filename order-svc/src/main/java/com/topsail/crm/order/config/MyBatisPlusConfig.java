@@ -1,20 +1,23 @@
-package com.topsail.crm.framework.mybatis.config;
+package com.topsail.crm.order.config;
 
+import com.asiainfo.areca.framework.aop.AutoSetMetaObjectAdvice;
+import com.asiainfo.areca.framework.interceptor.SqlPerformanceInterceptor;
+import com.asiainfo.areca.framework.mybatis.DataSourceKey;
+import com.asiainfo.areca.framework.mybatis.MyGlobalConfig;
+import com.asiainfo.areca.framework.mybatis.MySqlSessionTemplate;
+import com.asiainfo.areca.framework.util.PackageUtils;
 import com.atomikos.jdbc.nonxa.AtomikosNonXADataSourceBean;
 import com.baomidou.mybatisplus.autoconfigure.SpringBootVFS;
 import com.baomidou.mybatisplus.core.MybatisConfiguration;
+import com.baomidou.mybatisplus.core.config.GlobalConfig;
+import com.baomidou.mybatisplus.core.incrementer.IKeyGenerator;
 import com.baomidou.mybatisplus.core.parser.ISqlParser;
+import com.baomidou.mybatisplus.extension.incrementer.OracleKeyGenerator;
 import com.baomidou.mybatisplus.extension.parsers.BlockAttackSqlParser;
 import com.baomidou.mybatisplus.extension.plugins.OptimisticLockerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.SqlExplainInterceptor;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
-import com.topsail.crm.framework.aop.AutoSetMetaObjectAdvice;
-import com.topsail.crm.framework.interceptor.SqlPerformanceInterceptor;
-import com.topsail.crm.framework.mybatis.DataSourceKey;
-import com.topsail.crm.framework.mybatis.MyGlobalConfig;
-import com.topsail.crm.framework.mybatis.MySqlSessionTemplate;
-import com.topsail.crm.framework.util.PackageUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -42,7 +45,7 @@ import java.util.Map;
 @EnableTransactionManagement
 @Slf4j
 @Configuration
-@MapperScan(basePackages = {"com.topsail.crm.upc.modules.**.mapper"}, sqlSessionTemplateRef = "sqlSessionTemplate")
+@MapperScan(basePackages = {"com.topsail.crm.order.modules.**.mapper"}, sqlSessionTemplateRef = "sqlSessionTemplate")
 public class MyBatisPlusConfig {
 
     @Autowired(required = false)
@@ -60,6 +63,11 @@ public class MyBatisPlusConfig {
     @Autowired
     private AutoSetMetaObjectAdvice autoSetMetaObjectAdvice;
 
+    @Bean
+    public IKeyGenerator keyGenerator(){
+        return new OracleKeyGenerator();
+    }
+
     @Primary
     @Bean
     @ConfigurationProperties(prefix = "spring.datasource.atomikos.base")
@@ -68,8 +76,8 @@ public class MyBatisPlusConfig {
     }
 
     @Bean
-    @ConfigurationProperties(prefix = "spring.datasource.atomikos.upc")
-    public AtomikosNonXADataSourceBean upcDataSource() {
+    @ConfigurationProperties(prefix = "spring.datasource.atomikos.crm1")
+    public AtomikosNonXADataSourceBean crm1DataSource() {
         return DataSourceBuilder.create().type(AtomikosNonXADataSourceBean.class).build();
     }
 
@@ -77,7 +85,7 @@ public class MyBatisPlusConfig {
     public MySqlSessionTemplate customSqlSessionTemplate() throws Exception {
         Map<String, SqlSessionFactory> sqlSessionFactoryMap = new HashMap<String, SqlSessionFactory>() {{
             put(DataSourceKey.BASE, createSqlSessionFactory(baseDataSource()));
-            put(DataSourceKey.UPC, createSqlSessionFactory(upcDataSource()));
+            put(DataSourceKey.UPC, createSqlSessionFactory(crm1DataSource()));
         }};
         MySqlSessionTemplate sqlSessionTemplate = new MySqlSessionTemplate(sqlSessionFactoryMap.get(DataSourceKey.BASE));
         sqlSessionTemplate.setTargetSqlSessionFactories(sqlSessionFactoryMap);
@@ -112,6 +120,11 @@ public class MyBatisPlusConfig {
         MyGlobalConfig globalConfig = new MyGlobalConfig();
         globalConfig.setBanner(false);
         globalConfig.setMetaObjectHandler(autoSetMetaObjectAdvice);
+
+        // 注册序列生成器
+        GlobalConfig.DbConfig dbConfig = new GlobalConfig.DbConfig();
+        dbConfig.setKeyGenerator(keyGenerator());
+        globalConfig.setDbConfig(dbConfig);
 
         sqlSessionFactory.setGlobalConfig(globalConfig);
         sqlSessionFactory.afterPropertiesSet();

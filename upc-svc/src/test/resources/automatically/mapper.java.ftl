@@ -2,9 +2,9 @@ package ${package.Mapper};
 
 import ${package.Entity}.${entity};
 import ${superMapperClassPackage};
-import com.topsail.crm.framework.annotation.Storage;
-import com.topsail.crm.framework.mybatis.DataSourceKey;
-import com.topsail.crm.framework.mybatis.annotation.DataSource;
+import com.asiainfo.areca.framework.annotation.Storage;
+import com.asiainfo.areca.framework.mybatis.DataSourceKey;
+import com.asiainfo.areca.framework.mybatis.annotation.DataSource;
 
 /**
  * <p>

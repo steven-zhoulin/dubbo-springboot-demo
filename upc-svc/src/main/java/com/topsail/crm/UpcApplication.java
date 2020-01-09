@@ -11,7 +11,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @date 2019-12-16
  */
 @EnableDubbo
-@SpringBootApplication(exclude = {MybatisPlusAutoConfiguration.class})
+@SpringBootApplication(
+    exclude = {MybatisPlusAutoConfiguration.class},
+    scanBasePackages = {"com.asiainfo.areca.framework", "com.topsail.crm.upc"}
+    )
 @DubboComponentScan(basePackages = "com.topsail.crm.upc")
 public class UpcApplication {
     public static void main(String[] args) {

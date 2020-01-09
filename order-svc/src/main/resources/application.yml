@@ -3,7 +3,7 @@ server.port: 8080
 # 日志
 logging:
   level:
-    root: debug
+    root: info
 
 # Dubbo 配置
 dubbo:
@@ -27,22 +27,34 @@ spring:
     atomikos:
       base:
         uniqueResourceName: base
-        driverClassName: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://127.0.0.1:3306/base?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=GMT%2B8
-        user: root
-        password: 1q1w1e1r
+        driverClassName: oracle.jdbc.driver.OracleDriver
+        url: jdbc:oracle:thin:@//10.13.3.18:1521/cmpakdev.cs.asiainfo
+        user: base
+        password: 123
         minPoolSize: 2
         maxPoolSize: 5
         maxIdleTime: 60
         maxLifetime: 1200
         maintenanceInterval: 60
 
-      ord:
-        uniqueResourceName: ord
-        driverClassName: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://127.0.0.1:3306/ord?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=GMT%2B8
-        user: root
-        password: 1q1w1e1r
+      crm1:
+        uniqueResourceName: crm1
+        driverClassName: oracle.jdbc.driver.OracleDriver
+        url: jdbc:oracle:thin:@//10.13.3.18:1521/cmpakdev.cs.asiainfo
+        user: crm1
+        password: 123
+        minPoolSize: 2
+        maxPoolSize: 5
+        maxIdleTime: 60
+        maxLifetime: 1200
+        maintenanceInterval: 60
+
+      crm2:
+        uniqueResourceName: crm1
+        driverClassName: oracle.jdbc.driver.OracleDriver
+        url: jdbc:oracle:thin:@//10.13.3.18:1521/cmpakdev.cs.asiainfo
+        user: crm2
+        password: 123
         minPoolSize: 2
         maxPoolSize: 5
         maxIdleTime: 60
