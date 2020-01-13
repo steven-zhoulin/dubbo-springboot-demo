@@ -74,6 +74,7 @@ public class OracleGenerator {
         globalConfig.setOutputDir(outPutDirApi);
         globalConfig.setAuthor(author);
         globalConfig.setOpen(false);
+
         autoGenerator.setGlobalConfig(globalConfig);
 
         // 数据源配置
@@ -91,6 +92,8 @@ public class OracleGenerator {
         packageConfig.setModuleName(moduleName);
         packageConfig.setParent(parentPackage);
         packageConfig.setEntity("entity.po");
+        packageConfig.setService("service.local");
+        packageConfig.setServiceImpl("service.local.impl");
         autoGenerator.setPackageInfo(packageConfig);
 
         // 自定义配置
@@ -114,7 +117,6 @@ public class OracleGenerator {
             }
         });
 
-
         cfg.setFileOutConfigList(focList);
         autoGenerator.setCfg(cfg);
         autoGenerator.setTemplate(new TemplateConfig().setXml(null));
@@ -133,8 +135,6 @@ public class OracleGenerator {
         strategy.setEntityLombokModel(true);
         strategy.setInclude(tables);
         strategy.setRestControllerStyle(true);
-        strategy.setSuperServiceClass("com.asiainfo.areca.framework.dubbo.IDubboService");
-        strategy.setSuperServiceImplClass("com.asiainfo.areca.framework.dubbo.impl.DubboServiceImpl");
         strategy.setSuperEntityClass("com.topsail.crm.upc.common.data.BaseEntity");
         strategy.setControllerMappingHyphenStyle(true);
         strategy.setEntityTableFieldAnnotationEnable(true);
@@ -182,6 +182,8 @@ public class OracleGenerator {
         packageConfig.setModuleName(moduleName);
         packageConfig.setParent(parentPackage);
         packageConfig.setEntity("entity.po");
+        packageConfig.setService("service.local");
+        packageConfig.setServiceImpl("service.local.impl");
         autoGenerator.setPackageInfo(packageConfig);
 
         // 自定义配置
@@ -224,8 +226,6 @@ public class OracleGenerator {
         strategy.setEntityLombokModel(true);
         strategy.setInclude(tables);
         strategy.setRestControllerStyle(true);
-        strategy.setSuperServiceClass("com.asiainfo.areca.framework.dubbo.IDubboService");
-        strategy.setSuperServiceImplClass("com.asiainfo.areca.framework.dubbo.impl.DubboServiceImpl");
         strategy.setSuperEntityClass("com.topsail.crm.upc.common.data.BaseEntity");
         strategy.setControllerMappingHyphenStyle(true);
         strategy.setEntityTableFieldAnnotationEnable(true);
