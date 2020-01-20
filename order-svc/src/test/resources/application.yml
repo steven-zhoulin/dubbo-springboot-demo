@@ -1,0 +1,84 @@
+server.port: 8080
+
+# 日志
+logging:
+  level:
+    root: info
+
+# Dubbo 配置
+dubbo:
+  application:
+    name: crm-order
+  server: true
+  protocol:
+    host: 192.168.37.1
+    name: dubbo
+    port: 20880
+  registry:
+    address: zookeeper://127.0.0.1:2181
+  metadata-report:
+    address: zookeeper://127.0.0.1:2181
+  version: 1.0.0
+  scan:
+    base-packages: com.topsail.crm.order.cell
+
+spring:
+  datasource:
+    atomikos:
+      base:
+        uniqueResourceName: base
+        driverClassName: oracle.jdbc.driver.OracleDriver
+        url: jdbc:oracle:thin:@//10.13.3.18:1521/cmpakdev.cs.asiainfo
+        user: base
+        password: 123
+        minPoolSize: 2
+        maxPoolSize: 5
+        maxIdleTime: 60
+        maxLifetime: 1200
+        maintenanceInterval: 60
+
+      crm1:
+        uniqueResourceName: crm1
+        driverClassName: oracle.jdbc.driver.OracleDriver
+        url: jdbc:oracle:thin:@//10.13.3.18:1521/cmpakdev.cs.asiainfo
+        user: crm1
+        password: 123
+        minPoolSize: 2
+        maxPoolSize: 5
+        maxIdleTime: 60
+        maxLifetime: 1200
+        maintenanceInterval: 60
+
+      crm2:
+        uniqueResourceName: crm1
+        driverClassName: oracle.jdbc.driver.OracleDriver
+        url: jdbc:oracle:thin:@//10.13.3.18:1521/cmpakdev.cs.asiainfo
+        user: crm2
+        password: 123
+        minPoolSize: 2
+        maxPoolSize: 5
+        maxIdleTime: 60
+        maxLifetime: 1200
+        maintenanceInterval: 60
+
+  jta:
+    atomikos:
+      properties:
+        log-base-name: order-tmlog
+        default-jta-timeout: 60000
+        log-base-dir: ../logs
+    transaction-manager-id: tx
+
+  cache:
+    # 指定缓存类型: none(禁用缓存), simple(用于开发), redis（用于生产）
+    type: simple
+
+  session:
+    # session 的存储方式，开发模式（本地）：none，生产模式（分布式缓存）：redis
+    store-type: none
+    timeout: 1800
+
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml
+  configuration:
+    default-fetch-size: 512

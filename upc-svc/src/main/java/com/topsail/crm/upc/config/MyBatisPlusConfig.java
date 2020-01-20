@@ -45,7 +45,7 @@ import java.util.Map;
 @EnableTransactionManagement
 @Slf4j
 @Configuration
-@MapperScan(basePackages = {"com.topsail.crm.upc.modules.**.mapper"}, sqlSessionTemplateRef = "sqlSessionTemplate")
+@MapperScan(basePackages = {"com.topsail.crm.upc.cell.**.mapper"}, sqlSessionTemplateRef = "sqlSessionTemplate")
 public class MyBatisPlusConfig {
 
     @Autowired(required = false)
