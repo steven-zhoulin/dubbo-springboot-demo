@@ -14,6 +14,8 @@ import com.baomidou.mybatisplus.core.incrementer.IKeyGenerator;
 import com.baomidou.mybatisplus.core.parser.ISqlParser;
 import com.baomidou.mybatisplus.extension.incrementer.OracleKeyGenerator;
 import com.baomidou.mybatisplus.extension.parsers.BlockAttackSqlParser;
+import com.baomidou.mybatisplus.extension.parsers.DynamicTableNameParser;
+import com.baomidou.mybatisplus.extension.parsers.ITableNameHandler;
 import com.baomidou.mybatisplus.extension.plugins.OptimisticLockerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.SqlExplainInterceptor;
@@ -33,10 +35,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Steven
@@ -81,11 +80,18 @@ public class MyBatisPlusConfig {
         return DataSourceBuilder.create().type(AtomikosNonXADataSourceBean.class).build();
     }
 
+    @Bean
+    @ConfigurationProperties(prefix = "spring.datasource.atomikos.crm2")
+    public AtomikosNonXADataSourceBean crm2DataSource() {
+        return DataSourceBuilder.create().type(AtomikosNonXADataSourceBean.class).build();
+    }
+
     @Bean(name = "sqlSessionTemplate")
     public MySqlSessionTemplate customSqlSessionTemplate() throws Exception {
-        Map<String, SqlSessionFactory> sqlSessionFactoryMap = new HashMap<String, SqlSessionFactory>() {{
+        Map<String, SqlSessionFactory> sqlSessionFactoryMap = new HashMap<String, SqlSessionFactory>(3) {{
             put(DataSourceKey.BASE, createSqlSessionFactory(baseDataSource()));
-            put(DataSourceKey.UPC, createSqlSessionFactory(crm1DataSource()));
+            put(DataSourceKey.CRM1, createSqlSessionFactory(crm1DataSource()));
+//            put(DataSourceKey.CRM2, createSqlSessionFactory(crm2DataSource()));
         }};
         MySqlSessionTemplate sqlSessionTemplate = new MySqlSessionTemplate(sqlSessionFactoryMap.get(DataSourceKey.BASE));
         sqlSessionTemplate.setTargetSqlSessionFactories(sqlSessionFactoryMap);
@@ -179,6 +185,21 @@ public class MyBatisPlusConfig {
     @Bean
     public PaginationInterceptor paginationInterceptor() {
         PaginationInterceptor paginationInterceptor = new PaginationInterceptor();
+
+        DynamicTableNameParser dynamicTableNameParser = new DynamicTableNameParser();
+        dynamicTableNameParser.setTableNameHandlerMap(new HashMap<String, ITableNameHandler>(2) {{
+            put("STEVEN", (metaObject, sql, tableName) -> {
+                // metaObject 可以获取传入参数，这里实现你自己的动态规则
+                String year = "_2018";
+                int random = new Random().nextInt(10);
+                if (random % 2 == 1) {
+                    year = "_2019";
+                }
+                return tableName + year;
+            });
+        }});
+        paginationInterceptor.setSqlParserList(Collections.singletonList(dynamicTableNameParser));
+
         return paginationInterceptor;
     }
 
