@@ -223,7 +223,7 @@ public class MyBatisPlusConfig {
      * 性能分析拦截器，用于输出每条 SQL 语句及其执行时间，仅开发、测试环境使用，生产环境不推荐。
      */
     @Bean
-    @Profile({"dev", "test"})
+//    @Profile({"dev", "test"})
     public SqlPerformanceInterceptor performanceInterceptor() {
         SqlPerformanceInterceptor sqlPerformanceInterceptor = new SqlPerformanceInterceptor();
         // SQL 格式化开关
