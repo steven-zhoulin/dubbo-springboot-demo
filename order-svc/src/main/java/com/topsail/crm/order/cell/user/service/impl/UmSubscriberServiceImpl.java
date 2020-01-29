@@ -1,12 +1,11 @@
 package com.topsail.crm.order.cell.user.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.topsail.crm.order.cell.user.entity.po.UmSubscriber;
 import com.topsail.crm.order.cell.user.mapper.UmSubscriberMapper;
 import com.topsail.crm.order.cell.user.service.IUmSubscriberService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.apache.dubbo.config.annotation.Service;
-import org.springframework.stereotype.Component;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 /**
  * <p>
@@ -18,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @Component
-@Service
+//@Service
 public class UmSubscriberServiceImpl extends ServiceImpl<UmSubscriberMapper, UmSubscriber> implements IUmSubscriberService {
 
 }

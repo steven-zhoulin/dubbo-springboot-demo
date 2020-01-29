@@ -1,12 +1,11 @@
 package com.topsail.crm.upc.cell.demo.service.local.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.topsail.crm.upc.cell.demo.entity.po.MpCity;
 import com.topsail.crm.upc.cell.demo.mapper.MpCityMapper;
 import com.topsail.crm.upc.cell.demo.service.local.IMpCityService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.apache.dubbo.config.annotation.Service;
-import org.springframework.stereotype.Component;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 /**
  * <p>
@@ -18,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @Component
-@Service
+//@Service
 public class MpCityServiceImpl extends ServiceImpl<MpCityMapper, MpCity> implements IMpCityService {
 
 }

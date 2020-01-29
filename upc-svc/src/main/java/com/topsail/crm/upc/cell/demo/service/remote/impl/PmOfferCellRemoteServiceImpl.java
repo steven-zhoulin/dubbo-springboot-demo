@@ -2,9 +2,8 @@ package com.topsail.crm.upc.cell.demo.service.remote.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.topsail.crm.upc.cell.demo.entity.po.PmOfferCell;
-import com.topsail.crm.upc.cell.demo.service.remote.IPmOfferCellRemoteService;
 import com.topsail.crm.upc.cell.demo.service.local.IPmOfferCellService;
-import org.apache.dubbo.config.annotation.Service;
+import com.topsail.crm.upc.cell.demo.service.remote.IPmOfferCellRemoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -13,7 +12,7 @@ import java.util.List;
  * @author Steven
  * @date 2020-01-10
  */
-@Service(interfaceClass = IPmOfferCellRemoteService.class)
+//@Service(interfaceClass = IPmOfferCellRemoteService.class)
 public class PmOfferCellRemoteServiceImpl implements IPmOfferCellRemoteService {
 
     @Autowired
