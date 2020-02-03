@@ -66,6 +66,10 @@ subprojects {
 //            exclude group: 'log4j'
 //        }
 
+        // apache
+        //implementation 'org.dom4j:spring-boot-starter-jta-atomikos'
+
+
         implementation 'org.springframework.boot:spring-boot-starter-jta-atomikos'
         implementation 'org.springframework.boot:spring-boot-starter-aop'
         implementation 'org.springframework.boot:spring-boot-starter-security'
@@ -89,7 +93,7 @@ subprojects {
 
         implementation "com.asiainfo.areca:areca-framework:1.0-SNAPSHOT"
 
-        implementation 'oracle:ojdbc8:12.2.0.1.0'
+        compile 'com.oracle.ojdbc:ojdbc8:19.3.0.0'
 
         // 运行期有效
         runtimeOnly 'mysql:mysql-connector-java'

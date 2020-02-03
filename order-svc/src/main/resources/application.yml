@@ -22,6 +22,7 @@ dubbo:
   scan:
     base-packages: com.topsail.crm.order.modules
 
+
 spring:
   datasource:
     atomikos:
@@ -60,6 +61,7 @@ spring:
         maxIdleTime: 60
         maxLifetime: 1200
         maintenanceInterval: 60
+
 
   jta:
     atomikos:

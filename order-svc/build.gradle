@@ -8,4 +8,7 @@ bootJar.enabled = true
 dependencies {
     compile project(':order-api')
     compile project(':upc-api')
+
+    compile fileTree(dir: '../libs', include: ['*.jar'])
+
 }
