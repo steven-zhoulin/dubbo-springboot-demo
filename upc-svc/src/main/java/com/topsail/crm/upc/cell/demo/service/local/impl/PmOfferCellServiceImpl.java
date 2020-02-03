@@ -5,7 +5,6 @@ import com.topsail.crm.upc.cell.demo.entity.po.PmOfferCell;
 import com.topsail.crm.upc.cell.demo.mapper.PmOfferCellMapper;
 import com.topsail.crm.upc.cell.demo.service.local.IPmOfferCellService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.dubbo.config.annotation.Service;
 import org.springframework.stereotype.Component;
 
 /**
@@ -18,7 +17,7 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component
-@Service
+//@Service
 public class PmOfferCellServiceImpl extends ServiceImpl<PmOfferCellMapper, PmOfferCell> implements IPmOfferCellService {
 
 }

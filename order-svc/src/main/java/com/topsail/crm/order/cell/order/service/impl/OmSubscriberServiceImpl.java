@@ -1,12 +1,11 @@
 package com.topsail.crm.order.cell.order.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.topsail.crm.order.cell.order.entity.po.OmSubscriber;
 import com.topsail.crm.order.cell.order.mapper.OmSubscriberMapper;
 import com.topsail.crm.order.cell.order.service.IOmSubscriberService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.apache.dubbo.config.annotation.Service;
-import org.springframework.stereotype.Component;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 /**
  * <p>
@@ -18,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @Component
-@Service
+//@Service
 public class OmSubscriberServiceImpl extends ServiceImpl<OmSubscriberMapper, OmSubscriber> implements IOmSubscriberService {
 
 }
