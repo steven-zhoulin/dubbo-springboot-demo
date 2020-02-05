@@ -1,10 +1,14 @@
 package com.topsail.crm.order.cell.order.controller.impl;
 
+import com.asiainfo.areca.framework.error.Asserts;
+import com.topsail.crm.order.cell.order.controller.ChangePasswdError;
 import com.topsail.crm.order.cell.order.controller.interfaces.IChangePasswdCSV;
 import com.topsail.crm.order.cell.order.dto.OrderDTO;
 import com.topsail.crm.order.cell.user.dto.UserDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.function.Supplier;
 
 /**
  * CSF的服务实现类<p>
@@ -23,6 +27,10 @@ public class ChangePasswdCSVImpl implements IChangePasswdCSV {
     @Override
     public UserDTO queryUser(@RequestBody UserDTO user) {
         log.info("user info {}", user.toString());
+
+        Asserts.notNull(user.getAccessNum(), ChangePasswdError.ACCESS_NUM_NOTNULL);
+
+        Asserts.notNumeric(user.getAccessNum(), ChangePasswdError.ACCESS_NUM_NOTNUM);
 
         user.setUserId(112233L);
         user.setAccessNum("13787135441");
