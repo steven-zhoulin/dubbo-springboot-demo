@@ -39,7 +39,7 @@ public class ProcessorFactory {
      * @throws Exception
      */
     public static IProcessor getProcessor(JobContext jobContext) {
-        IProcessor processor = new ChangePasswordProcessor();
+        IProcessor processor = null;//new ChangePasswordProcessor();
         return processor;
     }
 }
