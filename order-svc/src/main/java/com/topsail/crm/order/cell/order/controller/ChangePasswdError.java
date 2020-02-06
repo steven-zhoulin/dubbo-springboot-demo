@@ -15,5 +15,8 @@ public enum ChangePasswdError implements Error {
     ACCESS_NUM_NOTNULL,
 
     @I18NCode("手机号码%s不能是数字")
-    ACCESS_NUM_NOTNUM
+    ACCESS_NUM_NOTNUM,
+
+    @I18NCode("查找Class异常")
+    CLASS_FINDER_ERROR
 }

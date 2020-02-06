@@ -1,6 +1,8 @@
 package com.topsail.crm.order.cell.order.controller.impl;
 
 import com.asiainfo.areca.framework.error.Asserts;
+import com.asiainfo.areca.framework.scan.ClassFinder;
+import com.asiainfo.areca.framework.scan.IClassGenerator;
 import com.topsail.crm.order.cell.order.controller.ChangePasswdError;
 import com.topsail.crm.order.cell.order.controller.interfaces.IChangePasswdCSV;
 import com.topsail.crm.order.cell.order.dto.OrderDTO;
@@ -29,6 +31,27 @@ public class ChangePasswdCSVImpl implements IChangePasswdCSV {
         log.info("user info {}", user.toString());
 
         Asserts.notNull(user.getAccessNum(), ChangePasswdError.ACCESS_NUM_NOTNULL);
+
+        try {
+            ClassFinder.getInstance().loadClasses("com.topsail", "file:*CSV", new IClassGenerator() {
+                @Override
+                public void create(String className) throws Exception {
+                    log.info("find class:{}", className);
+                }
+
+                /**
+                 * 指定模糊匹配的jar文件名，开发模式不需要
+                 * @return
+                 */
+                @Override
+                public String[] getJars() {
+                    return null;
+                }
+            });
+        } catch (Exception e) {
+            Asserts.error(e, ChangePasswdError.CLASS_FINDER_ERROR, "CSV");
+        }
+
 
         Asserts.notNumeric(user.getAccessNum(), ChangePasswdError.ACCESS_NUM_NOTNUM);
 
