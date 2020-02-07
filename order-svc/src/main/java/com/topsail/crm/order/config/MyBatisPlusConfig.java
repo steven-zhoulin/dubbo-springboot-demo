@@ -44,7 +44,7 @@ import java.util.*;
 @EnableTransactionManagement
 @Slf4j
 @Configuration
-@MapperScan(basePackages = {"com.topsail.crm.order.cell.**.mapper"}, sqlSessionTemplateRef = "sqlSessionTemplate")
+@MapperScan(basePackages = {"com.asiainfo.areca.framework.**.mapper", "com.topsail.crm.order.cell.**.mapper"}, sqlSessionTemplateRef = "sqlSessionTemplate")
 public class MyBatisPlusConfig {
 
     @Autowired(required = false)
@@ -59,7 +59,7 @@ public class MyBatisPlusConfig {
     @Autowired(required = false)
     private SqlPerformanceInterceptor sqlPerformanceInterceptor;
 
-    @Autowired
+    @Autowired(required = false)
     private AutoSetMetaObjectAdvice autoSetMetaObjectAdvice;
 
     @Bean

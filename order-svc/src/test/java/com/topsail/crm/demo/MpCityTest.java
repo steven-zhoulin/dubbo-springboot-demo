@@ -1,9 +1,11 @@
 package com.topsail.crm.demo;
 
+import com.asiainfo.areca.framework.database.service.IDualService;
 import com.topsail.crm.order.OrderApplication;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -16,9 +18,13 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest(classes = OrderApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class MpCityTest {
 
+    @Autowired
+    private IDualService dualService;
+
     @Test
     public void testSaveRandomCity() {
-
+        log.info("OM_ORDER$SEQ:   {}", dualService.nextval("crm1", "OM_ORDER$SEQ"));
+        log.info("SEQ_IMPEXP_LOG: {}", dualService.nextval("base", "SEQ_IMPEXP_LOG"));
     }
 
 }

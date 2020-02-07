@@ -60,7 +60,7 @@ public class MyBatisPlusConfig {
     @Autowired(required = false)
     private SqlPerformanceInterceptor sqlPerformanceInterceptor;
 
-    @Autowired
+    @Autowired(required = false)
     private AutoSetMetaObjectAdvice autoSetMetaObjectAdvice;
 
     @Bean
