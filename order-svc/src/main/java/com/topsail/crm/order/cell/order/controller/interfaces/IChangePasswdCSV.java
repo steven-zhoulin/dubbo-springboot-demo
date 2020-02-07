@@ -2,7 +2,6 @@ package com.topsail.crm.order.cell.order.controller.interfaces;
 
 import com.topsail.crm.order.cell.order.dto.OrderDTO;
 import com.topsail.crm.order.cell.user.dto.UserDTO;
-import org.springframework.web.bind.annotation.RequestBody;
 
 /**
  * CSF定义

@@ -1,5 +1,6 @@
 package com.topsail.crm.order.framework.harley.factory;
 
+import com.topsail.crm.order.business.order.changepassword.ChangePasswordProcessor;
 import com.topsail.crm.order.framework.harley.context.JobContext;
 import com.topsail.crm.order.framework.harley.interfaces.IProcessor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,6 +39,7 @@ public class ProcessorFactory {
      * @throws Exception
      */
     public static IProcessor getProcessor(JobContext jobContext) {
-        return null;
+        IProcessor processor = null;//new ChangePasswordProcessor();
+        return processor;
     }
 }

@@ -7,6 +7,8 @@ import com.topsail.crm.order.cell.order.controller.ChangePasswdError;
 import com.topsail.crm.order.cell.order.controller.interfaces.IChangePasswdCSV;
 import com.topsail.crm.order.cell.order.dto.OrderDTO;
 import com.topsail.crm.order.cell.user.dto.UserDTO;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,11 +22,13 @@ import java.util.function.Supplier;
  * liaosheng@asiainfo.com
  * 2020/1/29 3:28 下午
  */
+@Api("密码变更服务")
 @Slf4j
 @RestController
 @RequestMapping("/api/order/changepasswd")
 public class ChangePasswdCSVImpl implements IChangePasswdCSV {
 
+    @ApiOperation("查询用户信息")
     @PostMapping("/queryUser")
     @Override
     public UserDTO queryUser(@RequestBody UserDTO user) {
@@ -60,6 +64,7 @@ public class ChangePasswdCSVImpl implements IChangePasswdCSV {
         return user;
     }
 
+    @ApiOperation("创建订单")
     @PostMapping("/createOrder")
     @Override
     public OrderDTO createOrder(@RequestBody UserDTO user) {
