@@ -12,8 +12,13 @@ import com.topsail.crm.order.framework.harley.domain.user.ScaKernel;
 import com.topsail.crm.order.framework.harley.exception.ArgumentException;
 import com.topsail.crm.order.framework.harley.factory.ProcessorFactory;
 import com.topsail.crm.order.framework.harley.factory.ScaKernelFactory;
+import com.topsail.crm.order.framework.harley.interfaces.IBuildScaKernel;
 import com.topsail.crm.order.framework.harley.interfaces.IProcessor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @program: crm-V0
@@ -21,7 +26,10 @@ import org.apache.commons.lang3.StringUtils;
  * @author: jinnian
  * @create: 2020-01-19 16:02
  **/
+@Slf4j
 public class CoreProcedure {
+
+    private static Map<String, IBuildScaKernel> buildScaCache = new HashMap<String, IBuildScaKernel>();
 
     /**
      * 启动主要生产工作
@@ -59,7 +67,7 @@ public class CoreProcedure {
         databus.addJobContext(jobContext);
 
         //第二步，初始化sca
-        ScaKernel sca = this.initSca(userRequest);
+        ScaKernel sca = this.initSca(userRequest, processorAnnotation);
         jobContext.setSca(sca);
 
         //第三步，处理，使用动态代理模式，处理器之后叠加可以配置的插件
@@ -73,19 +81,21 @@ public class CoreProcedure {
      * @return
      * @throws Exception
      */
-    public ScaKernel initSca(UserRequestDTO userRequest) {
-        Long subscriberInsId = userRequest.getSubscriberInsId();
-        ScaKernelFactory scaKernelFactory = SpringContextUtils.getBean(ScaKernelFactory.class);
-        if (subscriberInsId != null) {
-            return scaKernelFactory.getScaKernel(subscriberInsId);
+    public ScaKernel initSca(UserRequestDTO userRequest, Processor processorAnnotation) {
+        Class<? extends IBuildScaKernel> clazz = processorAnnotation.buildSca();
+        String className = clazz.getName();
+        IBuildScaKernel builder = null;
+        if (buildScaCache.containsKey(className)) {
+            builder = buildScaCache.get(className);
+        } else {
+            try {
+                builder = clazz.newInstance();
+                buildScaCache.put(className, builder);
+            } catch (InstantiationException | IllegalAccessException e) {
+                log.error("build sca class load error", e);
+            }
         }
 
-        String accessNum = userRequest.getAccessNum();
-        String subscriberStatus = userRequest.getSubscriberStatus();
-        if (StringUtils.isNotBlank(accessNum)) {
-            return scaKernelFactory.getScaKernel(accessNum, subscriberStatus);
-        } else {
-            throw new ArgumentException(ArgumentException.ArgumentErrorEnum.IS_MUST);
-        }
+        return builder.build(userRequest);
     }
 }

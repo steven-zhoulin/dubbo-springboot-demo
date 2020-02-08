@@ -1,6 +1,8 @@
 package com.topsail.crm.order.framework.harley.annotation;
 
 import com.topsail.crm.order.cell.order.entity.dto.UserRequestDTO;
+import com.topsail.crm.order.framework.harley.interfaces.IBuildScaKernel;
+import com.topsail.crm.order.framework.harley.runtime.BaseBuildScaKernel;
 
 import java.lang.annotation.*;
 
@@ -33,4 +35,6 @@ public @interface Processor {
      * @return
      */
     Class<? extends UserRequestDTO> dto();
+
+    Class<? extends IBuildScaKernel> buildSca() default BaseBuildScaKernel.class;
 }
