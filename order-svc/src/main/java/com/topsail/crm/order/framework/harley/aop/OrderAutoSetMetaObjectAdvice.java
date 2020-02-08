@@ -1,9 +1,7 @@
 package com.topsail.crm.order.framework.harley.aop;
 
-import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.asiainfo.areca.framework.threadlocal.RequestTimeHolder;
-import com.asiainfo.areca.framework.util.Constants;
-import com.asiainfo.areca.framework.util.WebContextUtils;
+import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.stereotype.Component;
@@ -48,7 +46,6 @@ public class OrderAutoSetMetaObjectAdvice implements MetaObjectHandler {
     @Override
     public void insertFill(MetaObject metaObject) {
         LocalDateTime requestTime = getRequestTime();
-
         this.strictInsertFill(metaObject, CREATE_DATE, LocalDateTime.class, requestTime);
         this.strictInsertFill(metaObject, DONE_DATE, LocalDateTime.class, requestTime);
     }
