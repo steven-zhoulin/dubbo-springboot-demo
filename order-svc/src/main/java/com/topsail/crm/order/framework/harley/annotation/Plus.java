@@ -42,10 +42,10 @@ public @interface Plus {
     String channel() default "-1";
 
     /**
-     * 动态表达式
+     * Spring SPEL语法表达式
      * @return
      */
-    String expression() default "";
+    String spel() default "";
 
     /**
      * 场景类型 0-正常 1-返销 2-取消

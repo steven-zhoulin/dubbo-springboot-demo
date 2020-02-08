@@ -32,10 +32,10 @@ public @interface Workstation {
     String scenType() default "0";
 
     /**
-     * 动态表达式
+     * spring spel动态表达式
      * @return
      */
-    String expression() default "";
+    String spel() default "";
 
     /**
      * 执行顺序

@@ -11,8 +11,15 @@ import com.topsail.crm.order.framework.harley.context.JobContext;
 import com.topsail.crm.order.framework.harley.context.Scene;
 import com.topsail.crm.order.framework.harley.interfaces.IPlus;
 import com.topsail.crm.order.framework.harley.interfaces.IWorkstation;
+import com.topsail.crm.order.framework.harley.utils.SPELExecutor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.expression.EvaluationContext;
+import org.springframework.expression.ExpressionParser;
+import org.springframework.expression.spel.SpelCompilerMode;
+import org.springframework.expression.spel.SpelParserConfiguration;
+import org.springframework.expression.spel.standard.SpelExpressionParser;
+import org.springframework.expression.spel.support.StandardEvaluationContext;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -31,10 +38,9 @@ public class PlusFactory {
 
     static {
         try {
-            ClassFinder.getInstance().loadClasses("com.topsail.crm.order.business.order", "file:*Plu", new IClassGenerator() {
+            ClassFinder.getInstance().loadClasses("com.topsail.crm.order.business.order", "file:*Plus", new IClassGenerator() {
                 @Override
                 public void create(String className) throws Exception {
-                    className += "s";
                     if (cache.containsKey(className)) {
                         return;
                     }
@@ -85,13 +91,24 @@ public class PlusFactory {
         String currentBusiItemCode = jobContext.getBusiItemConfig().getBusiItemCode();
         String currentBusiCode = databus.getBusiCode();
 
+        SPELExecutor executor = new SPELExecutor();
+        executor.parse(jobContext);
+
         for (IPlus plugin : plugins) {
             Plus plusAnnotation = plugin.getClass().getDeclaredAnnotation(Plus.class);
 
             String busiItemCode = plusAnnotation.busiItemCode();
             String busiCode = plusAnnotation.busiCode();
+            String spel = plusAnnotation.spel();
 
             if ((StringUtils.equals("-1", busiItemCode) || StringUtils.equals(currentBusiItemCode, busiItemCode)) && (StringUtils.equals("-1", busiCode) || StringUtils.equals(currentBusiCode, busiCode))) {
+                if (StringUtils.isNotBlank(spel)) {
+                    boolean isMatch = executor.executeBool(spel);
+                    if (!isMatch) {
+                        continue;
+                    }
+                }
+
                 pluses.add(plugin);
             }
         }
