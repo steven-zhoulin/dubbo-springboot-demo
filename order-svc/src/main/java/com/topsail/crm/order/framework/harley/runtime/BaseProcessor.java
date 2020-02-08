@@ -22,8 +22,8 @@ public class BaseProcessor implements IProcessor {
     @Override
     public void process(JobContext jobContext) {
         long start = System.currentTimeMillis();
-        if (log.isDebugEnabled()) {
-            log.debug("**************************核心处理类处理开始**************************");
+        if (log.isInfoEnabled()) {
+            log.info("**************************核心处理类处理开始**************************");
         }
 
         this.processLine(jobContext);
@@ -31,18 +31,19 @@ public class BaseProcessor implements IProcessor {
         this.processItem(jobContext);
 
         long end = System.currentTimeMillis();
-        if (log.isDebugEnabled()) {
-            log.debug("**************************核心处理类处理结束**************************");
-            log.debug("核心处理类耗时：" + (end-start) + "ms");
+        if (log.isInfoEnabled()) {
+            log.info("**************************核心处理类处理结束**************************");
+            log.info("核心处理类耗时：" + (end-start) + "ms");
         }
     }
 
     public void processLine(JobContext jobContext) {
-        OmLine line = new OmLine();
+        OmLine line = jobContext.getLineData().getLine();
         ScaKernel sca = jobContext.getSca();
         Databus databus = DatabusManager.getDatabus();
         Long orderLineId = new Long(20200120);
 
+        line.setPartitionId(1);
         line.setOrderLineId(orderLineId);
         line.setBusiItemCode(jobContext.getUserRequest().getBusiItemCode());
         line.setPriority(0);
@@ -58,10 +59,9 @@ public class BaseProcessor implements IProcessor {
             line.setAccessNum("-1");
         }
 
-
-        line.setCreateDate(TimeUtils.stringToLocalDateTime(databus.getAcceptTime(), TimeUtils.TIME_PATTERN));
         line.setOrderStatus("0");
-        jobContext.add(line);
+        line.setDataStatus("1");
+        line.setOmItemId(1L);
     }
 
     /**

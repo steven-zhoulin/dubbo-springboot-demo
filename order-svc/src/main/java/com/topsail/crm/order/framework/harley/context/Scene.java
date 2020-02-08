@@ -13,7 +13,7 @@ import lombok.Data;
 public class Scene {
 
     /**
-     * 场景类型 0-正常业务 1-返销业务 2-取消业务 3-批量业务，具体可参看SceneTypeConst.java
+     * 场景类型 0-正常业务 1-返销业务 2-取消业务 具体可参看SceneTypeConst.java
      */
     private String sceneType;
 

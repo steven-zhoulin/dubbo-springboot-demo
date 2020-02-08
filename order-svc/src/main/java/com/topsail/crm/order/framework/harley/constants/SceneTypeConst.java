@@ -14,5 +14,4 @@ public class SceneTypeConst {
 
     public static final String CANCEL = "2";
 
-    public static final String BATCH = "3";
 }

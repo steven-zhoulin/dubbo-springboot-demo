@@ -5,7 +5,7 @@ import com.topsail.crm.order.cell.order.entity.dto.OrderRequestDTO;
 import com.topsail.crm.order.framework.harley.context.Databus;
 import com.topsail.crm.order.framework.harley.context.DatabusManager;
 import com.topsail.crm.order.framework.harley.context.Scene;
-import com.topsail.crm.order.framework.harley.runtime.Workshop;
+import com.topsail.crm.order.framework.harley.runtime.GeneralAssemblyShop;
 
 /**
  * @program: CRM-V0
@@ -73,15 +73,16 @@ public class Commander {
      * 任务开始，业务执行过程
      */
     public void doWork() {
-        Workshop workshop = new Workshop();
-        workshop.startProduce(this.request, this.response);
+        GeneralAssemblyShop generalAssemblyShop = new GeneralAssemblyShop();
+        generalAssemblyShop.startProduce(this.request, this.response);
     }
 
     /**
      * 业务执行完毕，设置返回
      */
     public void complete() {
-
+        Databus databus = DatabusManager.getDatabus();
+        this.response.setOrderId(databus.getOrderId());
     }
 
 

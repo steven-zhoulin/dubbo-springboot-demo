@@ -1,5 +1,7 @@
 package com.topsail.crm.order.cell.order.service.impl;
 
+import com.asiainfo.areca.framework.mybatis.DataSourceKey;
+import com.asiainfo.areca.framework.mybatis.annotation.DataSource;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.topsail.crm.order.cell.order.entity.po.OmLine;
 import com.topsail.crm.order.cell.order.mapper.OmLineMapper;
@@ -17,7 +19,10 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component
-//@Service
+@DataSource(DataSourceKey.CRM1)
 public class OmLineServiceImpl extends ServiceImpl<OmLineMapper, OmLine> implements IOmLineService {
 
+    public void a() {
+
+    }
 }

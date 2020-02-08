@@ -1,15 +1,12 @@
 package com.topsail.crm.order.framework.harley.context;
 
 import com.asiainfo.areca.framework.data.BaseEntity;
-import com.asiainfo.areca.framework.util.ArrayUtils;
 import com.topsail.crm.order.cell.order.entity.dto.UserRequestDTO;
-import com.topsail.crm.order.cell.order.entity.po.OmLine;
 import com.topsail.crm.order.framework.harley.config.BusiItemConfig;
+import com.topsail.crm.order.framework.harley.domain.order.LineData;
 import com.topsail.crm.order.framework.harley.domain.user.ScaKernel;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @program: crm-V0
@@ -21,7 +18,7 @@ public class JobContext<T extends BaseEntity, K extends UserRequestDTO> {
 
     private K userRequest;
 
-    private Map<String, List<T>> orderLineData;
+    private LineData lineData;
 
     private ScaKernel sca;
 
@@ -33,6 +30,7 @@ public class JobContext<T extends BaseEntity, K extends UserRequestDTO> {
      */
     public JobContext(K userRequest) {
         this.userRequest = userRequest;
+        this.lineData = new LineData();
     }
 
     /**
@@ -68,37 +66,29 @@ public class JobContext<T extends BaseEntity, K extends UserRequestDTO> {
     }
 
     /**
+     * 设置业务类型配置
+     * @param busiItemConfig
+     */
+    public void setBusiItemConfig(BusiItemConfig busiItemConfig) {
+        this.busiItemConfig = busiItemConfig;
+    }
+
+    /**
      * 添加具体的订单子表信息，默认取VO上的sca
      * @param orderItem
      * @throws Exception
      */
     public void add(T orderItem) {
-        ScaKernel sca = this.getSca();
-
-        String accessNum = "";
-        if (sca != null) {
-            accessNum = sca.getAccessNum();
-        }
-
-        this.add(accessNum, orderItem);
+        this.lineData.add(orderItem);
     }
 
     /**
-     * 添加具体的订单子表数据，之所以需要accessNum，是因为需要根据accessNum找到sca，以便于做sca资料的future运算
-     * @param accessNum
-     * @param orderItem
+     * 添加具体的多条订单子表信息，默认取VO上的sca
+     * @param orderItems
      * @throws Exception
      */
-    public void add(String accessNum, T orderItem) {
-        String className = orderItem.getClass().getName();
-
-        List<T> orderItems = this.orderLineData.get(className);
-        if (orderItems == null) {
-            orderItems = new ArrayList<T>();
-            this.orderLineData.put(className, orderItems);
-        }
-
-        orderItems.add(orderItem);
+    public void add(List<T> orderItems) {
+        this.lineData.add(orderItems);
     }
 
     /**
@@ -107,7 +97,7 @@ public class JobContext<T extends BaseEntity, K extends UserRequestDTO> {
      * @return
      */
     public List<T> getOrderItems(String className) {
-        return this.orderLineData.get(className);
+        return this.lineData.get(className);
     }
 
     /**
@@ -116,25 +106,18 @@ public class JobContext<T extends BaseEntity, K extends UserRequestDTO> {
      * @return
      */
     public List<T> getOrderItems(Class<? extends BaseEntity> clazz) {
-        String className = clazz.getName();
-        return this.orderLineData.get(className);
+        return this.lineData.get(clazz);
     }
 
     /**
      * 获取以订单行为基本单位的订单子表数据
      * @return
      */
-    public Map<String, List<T>> getOrderLineData() {
-        return this.orderLineData;
+    public LineData getLineData() {
+        return this.lineData;
     }
 
-    public long getOrderLineId() {
-        List<T> lines = this.getOrderItems(OmLine.class);
-        if (ArrayUtils.isEmpty(lines)) {
-            return -1;
-        }
-
-        OmLine line = (OmLine)lines.get(0);
-        return line.getOrderLineId();
+    public Long getOrderLineId() throws Exception {
+        return this.lineData.getOrderLineId();
     }
 }

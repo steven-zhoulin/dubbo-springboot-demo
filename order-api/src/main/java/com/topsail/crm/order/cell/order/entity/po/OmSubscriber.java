@@ -1,5 +1,6 @@
 package com.topsail.crm.order.cell.order.entity.po;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.asiainfo.areca.framework.data.BaseEntity;
 import java.time.LocalDateTime;
@@ -220,7 +221,7 @@ public class OmSubscriber extends BaseEntity {
     /**
      * 创建日期
      */
-    @TableField("CREATE_DATE")
+    @TableField(value = "CREATE_DATE", fill = FieldFill.INSERT)
     private LocalDateTime createDate;
 
     /**
@@ -244,7 +245,7 @@ public class OmSubscriber extends BaseEntity {
     /**
      * 操作日期
      */
-    @TableField("DONE_DATE")
+    @TableField(value = "DONE_DATE", fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime doneDate;
 
     /**

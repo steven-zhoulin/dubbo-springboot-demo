@@ -29,7 +29,8 @@ public class ScaKernelFactory {
 
     public ScaKernel getScaKernel(Long subscriberInsId)  {
         ScaKernel sca = new ScaKernel();
-
+        UmSubscriber subscriber = this.subscriberService.getById(subscriberInsId);
+        sca.setSubscriber(subscriber);
         return sca;
     }
 

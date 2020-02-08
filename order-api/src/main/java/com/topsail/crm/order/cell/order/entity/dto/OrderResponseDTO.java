@@ -11,7 +11,7 @@ import lombok.Data;
 @Data
 public class OrderResponseDTO {
 
-    private String orderId;
+    private Long orderId;
 
 
 }
