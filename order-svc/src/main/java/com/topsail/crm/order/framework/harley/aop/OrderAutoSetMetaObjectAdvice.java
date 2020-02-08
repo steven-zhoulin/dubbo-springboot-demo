@@ -13,8 +13,8 @@ import java.time.LocalDateTime;
 /**
  * 实现公共字段自动设置
  *
- * @author jinnian
- * @date 2020-02-08
+ * @author Steven
+ * @date 2019-04-28
  */
 @Slf4j
 @Component
@@ -23,32 +23,22 @@ public class OrderAutoSetMetaObjectAdvice implements MetaObjectHandler {
     /**
      * 记录创建时间
      */
-    private static final String CREATE_DATE = "createDate";
-
-    /**
-     * 记录创建员工
-     */
-    private static final String CREATE_OP_ID = "createOpId";
-
-    /**
-     * 记录创建部门
-     */
-    private static final String CREATE_ORG_ID = "createOrgId";
+    private static final String CREATE_TIME = "createTime";
 
     /**
      * 记录更新时间
      */
-    private static final String DONE_DATE = "doneDate";
+    private static final String UPDATE_TIME = "updateTime";
 
     /**
-     * 记录更新员工
+     * 记录创建工号
      */
-    private static final String OP_ID = "opId";
+    private static final String CREATE_USER_ID = "createUserId";
 
     /**
-     * 记录更新时间
+     * 记录更新工号
      */
-    private static final String ORG_ID = "orgId";
+    private static final String UPDATE_USER_ID = "updateUserId";
 
     /**
      * 在新增记录时自动设置。
@@ -57,9 +47,14 @@ public class OrderAutoSetMetaObjectAdvice implements MetaObjectHandler {
      */
     @Override
     public void insertFill(MetaObject metaObject) {
+
+        Long userId = getUserId();
         LocalDateTime requestTime = getRequestTime();
-        this.strictInsertFill(metaObject, CREATE_DATE, LocalDateTime.class, requestTime);
-        this.strictInsertFill(metaObject, DONE_DATE, LocalDateTime.class, requestTime);
+
+        this.strictInsertFill(metaObject, CREATE_TIME, LocalDateTime.class, requestTime);
+        this.strictInsertFill(metaObject, UPDATE_TIME, LocalDateTime.class, requestTime);
+        this.strictInsertFill(metaObject, CREATE_USER_ID, Long.class, userId);
+        this.strictInsertFill(metaObject, UPDATE_USER_ID, Long.class, userId);
     }
 
     /**
@@ -69,8 +64,11 @@ public class OrderAutoSetMetaObjectAdvice implements MetaObjectHandler {
      */
     @Override
     public void updateFill(MetaObject metaObject) {
+        Long userId = getUserId();
         LocalDateTime requestTime = getRequestTime();
-        this.strictUpdateFill(metaObject, DONE_DATE, LocalDateTime.class, requestTime);
+
+        this.strictUpdateFill(metaObject, UPDATE_TIME, LocalDateTime.class, requestTime);
+        this.strictUpdateFill(metaObject, UPDATE_USER_ID, Long.class, userId);
     }
 
     private Long getUserId() {

@@ -4,6 +4,9 @@ server.port: 8080
 logging:
   level:
     root: info
+    com.baomidou.mybatisplus: debug
+    com.asiainfo.areca.framework.database: debug
+    com.topsail.crm: debug
 
 # Dubbo 配置
 dubbo:
