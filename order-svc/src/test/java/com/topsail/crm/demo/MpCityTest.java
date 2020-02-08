@@ -23,8 +23,10 @@ public class MpCityTest {
 
     @Test
     public void testSaveRandomCity() {
-        log.info("OM_ORDER$SEQ:   {}", dualService.nextval("crm1", "OM_ORDER$SEQ"));
-        log.info("SEQ_IMPEXP_LOG: {}", dualService.nextval("base", "SEQ_IMPEXP_LOG"));
+        for (int i = 0; i < 20; i++) {
+            log.info("OM_ORDER$SEQ:   {}", dualService.nextval("crm1", "OM_ORDER$SEQ"));
+            log.info("SEQ_IMPEXP_LOG: {}", dualService.nextval("base", "SEQ_IMPEXP_LOG"));
+        }
     }
 
 }
