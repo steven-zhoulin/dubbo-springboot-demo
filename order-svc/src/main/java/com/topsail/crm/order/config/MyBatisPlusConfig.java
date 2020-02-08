@@ -1,6 +1,5 @@
 package com.topsail.crm.order.config;
 
-import com.asiainfo.areca.framework.aop.AutoSetMetaObjectAdvice;
 import com.asiainfo.areca.framework.interceptor.SqlPerformanceInterceptor;
 import com.asiainfo.areca.framework.mybatis.DataSourceKey;
 import com.asiainfo.areca.framework.mybatis.MyGlobalConfig;
@@ -14,12 +13,11 @@ import com.baomidou.mybatisplus.core.incrementer.IKeyGenerator;
 import com.baomidou.mybatisplus.core.parser.ISqlParser;
 import com.baomidou.mybatisplus.extension.incrementer.OracleKeyGenerator;
 import com.baomidou.mybatisplus.extension.parsers.BlockAttackSqlParser;
-import com.baomidou.mybatisplus.extension.parsers.DynamicTableNameParser;
-import com.baomidou.mybatisplus.extension.parsers.ITableNameHandler;
 import com.baomidou.mybatisplus.extension.plugins.OptimisticLockerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.SqlExplainInterceptor;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
+import com.topsail.crm.order.framework.harley.aop.OrderAutoSetMetaObjectAdvice;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -31,7 +29,6 @@ import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -59,8 +56,8 @@ public class MyBatisPlusConfig {
     @Autowired(required = false)
     private SqlPerformanceInterceptor sqlPerformanceInterceptor;
 
-    @Autowired(required = false)
-    private AutoSetMetaObjectAdvice autoSetMetaObjectAdvice;
+    @Autowired
+    private OrderAutoSetMetaObjectAdvice orderAutoSetMetaObjectAdvice;
 
     @Bean
     public IKeyGenerator keyGenerator(){
@@ -125,7 +122,8 @@ public class MyBatisPlusConfig {
         // 重写了 GlobalConfig 的 MyGlobalConfig 注入到 sqlSessionFactory 使其生效
         MyGlobalConfig globalConfig = new MyGlobalConfig();
         globalConfig.setBanner(false);
-        globalConfig.setMetaObjectHandler(autoSetMetaObjectAdvice);
+        log.info("元数据自动填充: {}", orderAutoSetMetaObjectAdvice);
+        globalConfig.setMetaObjectHandler(orderAutoSetMetaObjectAdvice);
 
         // 注册序列生成器
         GlobalConfig.DbConfig dbConfig = new GlobalConfig.DbConfig();
@@ -186,19 +184,19 @@ public class MyBatisPlusConfig {
     public PaginationInterceptor paginationInterceptor() {
         PaginationInterceptor paginationInterceptor = new PaginationInterceptor();
 
-        DynamicTableNameParser dynamicTableNameParser = new DynamicTableNameParser();
-        dynamicTableNameParser.setTableNameHandlerMap(new HashMap<String, ITableNameHandler>(2) {{
-            put("STEVEN", (metaObject, sql, tableName) -> {
-                // metaObject 可以获取传入参数，这里实现你自己的动态规则
-                String year = "_2018";
-                int random = new Random().nextInt(10);
-                if (random % 2 == 1) {
-                    year = "_2019";
-                }
-                return tableName + year;
-            });
-        }});
-        paginationInterceptor.setSqlParserList(Collections.singletonList(dynamicTableNameParser));
+//        DynamicTableNameParser dynamicTableNameParser = new DynamicTableNameParser();
+//        dynamicTableNameParser.setTableNameHandlerMap(new HashMap<String, ITableNameHandler>(2) {{
+//            put("STEVEN", (metaObject, sql, tableName) -> {
+//                // metaObject 可以获取传入参数，这里实现你自己的动态规则
+//                String year = "_2018";
+//                int random = new Random().nextInt(10);
+//                if (random % 2 == 1) {
+//                    year = "_2019";
+//                }
+//                return tableName + year;
+//            });
+//        }});
+//        paginationInterceptor.setSqlParserList(Collections.singletonList(dynamicTableNameParser));
 
         return paginationInterceptor;
     }

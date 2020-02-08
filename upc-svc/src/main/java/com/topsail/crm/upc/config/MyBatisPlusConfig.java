@@ -60,7 +60,7 @@ public class MyBatisPlusConfig {
     @Autowired(required = false)
     private SqlPerformanceInterceptor sqlPerformanceInterceptor;
 
-    @Autowired(required = false)
+    @Autowired
     private AutoSetMetaObjectAdvice autoSetMetaObjectAdvice;
 
     @Bean
@@ -119,6 +119,7 @@ public class MyBatisPlusConfig {
         // 重写了 GlobalConfig 的 MyGlobalConfig 注入到 sqlSessionFactory 使其生效
         MyGlobalConfig globalConfig = new MyGlobalConfig();
         globalConfig.setBanner(false);
+        log.info("元数据自动填充: {}", autoSetMetaObjectAdvice);
         globalConfig.setMetaObjectHandler(autoSetMetaObjectAdvice);
 
         // 注册序列生成器
