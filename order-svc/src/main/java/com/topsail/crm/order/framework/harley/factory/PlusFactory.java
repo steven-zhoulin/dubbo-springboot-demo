@@ -2,6 +2,7 @@ package com.topsail.crm.order.framework.harley.factory;
 
 import com.asiainfo.areca.framework.scan.ClassFinder;
 import com.asiainfo.areca.framework.scan.IClassGenerator;
+import com.asiainfo.areca.framework.util.ArrayUtils;
 import com.topsail.crm.order.framework.harley.annotation.Plus;
 import com.topsail.crm.order.framework.harley.annotation.Workstation;
 import com.topsail.crm.order.framework.harley.context.Databus;
@@ -11,12 +12,10 @@ import com.topsail.crm.order.framework.harley.context.Scene;
 import com.topsail.crm.order.framework.harley.interfaces.IPlus;
 import com.topsail.crm.order.framework.harley.interfaces.IWorkstation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @program: crm-V0
@@ -32,9 +31,10 @@ public class PlusFactory {
 
     static {
         try {
-            ClassFinder.getInstance().loadClasses("com.topsail.crm.order", "file:*Plus", new IClassGenerator() {
+            ClassFinder.getInstance().loadClasses("com.topsail.crm.order.business.order", "file:*Plu", new IClassGenerator() {
                 @Override
                 public void create(String className) throws Exception {
+                    className += "s";
                     if (cache.containsKey(className)) {
                         return;
                     }
@@ -62,7 +62,7 @@ public class PlusFactory {
                 }
             });
         } catch (Exception e) {
-            log.error("section config load error", e);
+            log.error("plus config load error", e);
         }
 
     }
@@ -73,14 +73,49 @@ public class PlusFactory {
      * @return
      * @throws Exception
      */
-    public static List<IPlus> getProcessorPlugins(JobContext jobContext) throws Exception {
-        List<IPlus> sections = new ArrayList<IPlus>();
-        Databus databus = DatabusManager.getDatabus();
-        String busiItemCode = jobContext.getBusiItemConfig().getBusiItemCode();
-        String firstBusiItemCode = databus.getFirstBusiItemCode();
-        String channel = databus.getEnvironment().getChannel();
-        Scene scene = databus.getScene();
+    public static List<IPlus> getPluses(JobContext jobContext, Plus.PlusType type) throws Exception {
+        List<IPlus> pluses = new ArrayList<IPlus>();
 
-        return sections;
+        Collection<IPlus> plugins = cache.values();
+        if (plugins == null || plugins.size() <= 0) {
+            return pluses;
+        }
+
+        Databus databus = DatabusManager.getDatabus();
+        String currentBusiItemCode = jobContext.getBusiItemConfig().getBusiItemCode();
+        String currentBusiCode = databus.getBusiCode();
+
+        for (IPlus plugin : plugins) {
+            Plus plusAnnotation = plugin.getClass().getDeclaredAnnotation(Plus.class);
+
+            String busiItemCode = plusAnnotation.busiItemCode();
+            String busiCode = plusAnnotation.busiCode();
+
+            if ((StringUtils.equals("-1", busiItemCode) || StringUtils.equals(currentBusiItemCode, busiItemCode)) && (StringUtils.equals("-1", busiCode) || StringUtils.equals(currentBusiCode, busiCode))) {
+                pluses.add(plugin);
+            }
+        }
+
+        if (ArrayUtils.isNotEmpty(pluses)) {
+            Collections.sort(pluses, new Comparator<IPlus>() {
+                @Override
+                public int compare(IPlus one, IPlus another) {
+                    Plus plusAnnotation = one.getClass().getDeclaredAnnotation(Plus.class);
+                    Plus anotherPlusAnnotation = another.getClass().getDeclaredAnnotation(Plus.class);
+
+                    int execNo = plusAnnotation.execNo();
+                    int anotherExecNo = anotherPlusAnnotation.execNo();
+
+                    if (execNo > anotherExecNo) {
+                        return 1;
+                    } else if (execNo < anotherExecNo) {
+                        return -1;
+                    } else {
+                        return 0;
+                    }
+                }
+            });
+        }
+        return pluses;
     }
 }

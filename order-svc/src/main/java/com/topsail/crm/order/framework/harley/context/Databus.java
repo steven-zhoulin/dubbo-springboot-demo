@@ -159,7 +159,15 @@ public class Databus {
         return this.order.getOrderId();
     }
 
+    /**
+     * 获取订单数据对象
+     * @return
+     */
     public OrderData getOrderData() {
         return this.order;
+    }
+
+    public String getBusiCode() {
+        return this.order.getOrder().getBusiCode();
     }
 }

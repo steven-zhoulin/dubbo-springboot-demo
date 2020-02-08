@@ -1,6 +1,7 @@
 package com.topsail.crm.order.framework.harley.runtime;
 
 import com.asiainfo.areca.framework.util.ArrayUtils;
+import com.topsail.crm.order.framework.harley.annotation.Plus;
 import com.topsail.crm.order.framework.harley.context.JobContext;
 import com.topsail.crm.order.framework.harley.factory.PlusFactory;
 import com.topsail.crm.order.framework.harley.interfaces.IProcessor;
@@ -29,7 +30,7 @@ public class ProcessorProxy implements InvocationHandler {
         method.invoke(this.processor, args);
 
         JobContext jobContext = (JobContext)args[0];
-        List<IPlus> sections = PlusFactory.getProcessorPlugins(jobContext);
+        List<IPlus> sections = PlusFactory.getPluses(jobContext, Plus.PlusType.REG);
 
         if (ArrayUtils.isEmpty(sections)) {
             return null;

@@ -7,7 +7,6 @@ import com.asiainfo.areca.framework.util.SpringContextUtils;
 import com.asiainfo.areca.framework.util.TimeUtils;
 import com.topsail.crm.order.cell.order.entity.dto.OrderRequestDTO;
 import com.topsail.crm.order.cell.order.entity.dto.OrderResponseDTO;
-import com.topsail.crm.order.cell.order.entity.po.OmLine;
 import com.topsail.crm.order.cell.order.entity.po.OmOrder;
 import com.topsail.crm.order.cell.order.service.IOmOrderService;
 import com.topsail.crm.order.cell.order.service.impl.OmOrderServiceImpl;
@@ -102,7 +101,6 @@ public class OrderDatabaseWorkstation implements IWorkstation {
         String channel = env.getChannel();
 
         orderData.setPartitionId(1);
-        orderData.setBusiCode("1");
         orderData.setOrderStatus("0");
         orderData.setPriority(0);
 

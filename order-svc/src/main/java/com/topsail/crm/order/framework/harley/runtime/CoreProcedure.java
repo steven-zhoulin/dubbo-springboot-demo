@@ -51,6 +51,11 @@ public class CoreProcedure {
         BusiItemConfig busiItemConfig = new BusiItemConfig(busiItemCode);
         jobContext.setBusiItemConfig(busiItemConfig);
 
+        String busiCode = orderData.getOrder().getBusiCode();
+        if (StringUtils.isBlank(busiCode)) {
+            orderData.getOrder().setBusiCode(busiItemCode);
+        }
+
         databus.addJobContext(jobContext);
 
         //第二步，初始化sca
