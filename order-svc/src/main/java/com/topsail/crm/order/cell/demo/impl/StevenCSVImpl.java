@@ -1,7 +1,5 @@
 package com.topsail.crm.order.cell.demo.impl;
 
-import com.asiainfo.areca.framework.database.service.IDualService;
-import com.asiainfo.areca.framework.threadlocal.RequestTimeHolder;
 import com.topsail.crm.order.cell.demo.entity.po.Steven;
 import com.topsail.crm.order.cell.demo.interfaces.IStevenCSV;
 import com.topsail.crm.order.cell.demo.service.IStevenService;
@@ -16,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.format.DateTimeFormatter;
-
 /**
  * @author Steven
  * @date 2020-02-08
@@ -31,28 +27,13 @@ public class StevenCSVImpl implements IStevenCSV {
     @Autowired
     private IStevenService stevenService;
 
-    @Autowired
-    private IDualService dualService;
-
     @ApiOperation("创建实例数据")
     @PostMapping("/createOrder")
     @Override
     @Transactional(rollbackFor = Throwable.class, propagation = Propagation.REQUIRED)
     public Long createOrder(@RequestBody Steven steven) {
 
-        Steven one = stevenService.getById(1L);
-        log.info("one: {}", one);
-
-        log.info("user info {}", steven);
-        Long nextval = dualService.nextval("crm1", "OM_ORDER$SEQ");
-        log.info("nextval: {}", nextval);
-
-        String idStr = RequestTimeHolder.getRequestTime().format(DateTimeFormatter.ofPattern("yyyyMMdd")) + nextval;
-        Long id = Long.parseLong(idStr);
-        log.info("id: {}", id);
-
-        steven.setId(id);
-        stevenService.save(steven);
+        stevenService.createOrder(steven);
         return steven.getId();
     }
 

@@ -13,4 +13,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IStevenService extends IService<Steven> {
 
+    /**
+     * 创建
+     *
+     * @param steven
+     */
+    boolean createOrder(Steven steven);
 }
