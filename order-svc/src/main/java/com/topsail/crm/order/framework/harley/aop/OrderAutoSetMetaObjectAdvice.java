@@ -23,22 +23,22 @@ public class OrderAutoSetMetaObjectAdvice implements MetaObjectHandler {
     /**
      * 记录创建时间
      */
-    private static final String CREATE_DATE = "CREATE_DATE";
+    private static final String CREATE_DATE = "createDate";
 
     /**
      * 记录更新时间
      */
-    private static final String DONE_DATE = "DONE_DATE";
+    private static final String DONE_DATE = "doneDate";
 
     /**
      * 记录创建工号
      */
-    private static final String CREATE_OP_ID = "CREATE_OP_ID";
+    private static final String CREATE_OP_ID = "createOpId";
 
     /**
      * 记录更新工号
      */
-    private static final String OP_ID = "OP_ID";
+    private static final String OP_ID = "opId";
 
     /**
      * 在新增记录时自动设置。
