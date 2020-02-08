@@ -8,7 +8,7 @@ import com.topsail.crm.order.framework.harley.context.JobContext;
  * @author: jinnian
  * @create: 2019-05-24 14:45
  **/
-public interface ISection {
+public interface IPlus {
 
     void execute(JobContext context);
 }

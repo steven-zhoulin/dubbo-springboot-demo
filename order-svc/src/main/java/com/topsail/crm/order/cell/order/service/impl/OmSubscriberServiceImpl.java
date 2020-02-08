@@ -1,5 +1,7 @@
 package com.topsail.crm.order.cell.order.service.impl;
 
+import com.asiainfo.areca.framework.mybatis.DataSourceKey;
+import com.asiainfo.areca.framework.mybatis.annotation.DataSource;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.topsail.crm.order.cell.order.entity.po.OmSubscriber;
 import com.topsail.crm.order.cell.order.mapper.OmSubscriberMapper;
@@ -17,7 +19,7 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component
-//@Service
+@DataSource(DataSourceKey.CRM1)
 public class OmSubscriberServiceImpl extends ServiceImpl<OmSubscriberMapper, OmSubscriber> implements IOmSubscriberService {
 
 }

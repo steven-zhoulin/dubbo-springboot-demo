@@ -3,6 +3,7 @@ package com.topsail.crm.order.framework.harley.exception;
 import com.asiainfo.areca.framework.exception.BaseException;
 import com.asiainfo.areca.framework.exception.Error;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ArrayUtils;
 
 /**
  * @program: crm
@@ -23,7 +24,11 @@ public class ArgumentException extends BaseException {
             String name = argumentEnum.name();
             Error error = argumentEnum.getClass().getField(name).getAnnotation(Error.class);
             this.setCode(error.code());
-            this.setMessage(error.message());
+            String message = error.message();
+            if (ArrayUtils.isNotEmpty(replaceTexts)) {
+                message = this.replace(message, replaceTexts);
+            }
+            this.setMessage(message);
         } catch (Exception e) {
             log.debug("参数注解读取错误", e);
         }

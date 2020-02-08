@@ -1,10 +1,13 @@
 package com.topsail.crm.order.framework.harley.context;
 
 import com.asiainfo.areca.framework.util.ArrayUtils;
+import com.asiainfo.areca.framework.util.TimeUtils;
 import com.topsail.crm.order.cell.order.entity.po.OmOrder;
 import com.topsail.crm.order.framework.harley.Commander;
+import com.topsail.crm.order.framework.harley.domain.order.OrderData;
 import com.topsail.crm.order.framework.harley.domain.user.ScaKernel;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -37,7 +40,7 @@ public class Databus {
     /**
      * 订单对象
      */
-    private OmOrder order;
+    private OrderData order;
 
     /**
      * 构造函数，初始化环境
@@ -46,9 +49,7 @@ public class Databus {
         this.environment = new Environment();
         this.commanders = new Stack<Commander>();
         this.jobContexts = new ArrayList<JobContext>();
-        order = new OmOrder();
-        //此处后续改成取序列
-        order.setOrderId(new Random().nextLong());
+        order = new OrderData();
 
     }
 
@@ -130,16 +131,16 @@ public class Databus {
      * 获取业务接入时间
      * @return
      */
-    public String getAcceptTime() {
-        return this.environment.getAcceptTime();
+    public String getAcceptTimeString() {
+        return TimeUtils.formatLocalDateTimeToString(this.environment.getAcceptTime(), TimeUtils.TIME_PATTERN);
     }
 
     /**
-     * 设置订单
-     * @param order
+     * 获取业务接入时间
+     * @return
      */
-    public void setOrder(OmOrder order) {
-        this.order = order;
+    public LocalDateTime getAcceptTime() {
+        return this.environment.getAcceptTime();
     }
 
     /**
@@ -156,5 +157,9 @@ public class Databus {
      */
     public long getOrderId() {
         return this.order.getOrderId();
+    }
+
+    public OrderData getOrderData() {
+        return this.order;
     }
 }

@@ -23,22 +23,22 @@ public class OrderAutoSetMetaObjectAdvice implements MetaObjectHandler {
     /**
      * 记录创建时间
      */
-    private static final String CREATE_TIME = "createTime";
+    private static final String CREATE_DATE = "CREATE_DATE";
 
     /**
      * 记录更新时间
      */
-    private static final String UPDATE_TIME = "updateTime";
+    private static final String DONE_DATE = "DONE_DATE";
 
     /**
      * 记录创建工号
      */
-    private static final String CREATE_USER_ID = "createUserId";
+    private static final String CREATE_OP_ID = "CREATE_OP_ID";
 
     /**
      * 记录更新工号
      */
-    private static final String UPDATE_USER_ID = "updateUserId";
+    private static final String OP_ID = "OP_ID";
 
     /**
      * 在新增记录时自动设置。
@@ -47,14 +47,10 @@ public class OrderAutoSetMetaObjectAdvice implements MetaObjectHandler {
      */
     @Override
     public void insertFill(MetaObject metaObject) {
-
-        Long userId = getUserId();
         LocalDateTime requestTime = getRequestTime();
 
-        this.strictInsertFill(metaObject, CREATE_TIME, LocalDateTime.class, requestTime);
-        this.strictInsertFill(metaObject, UPDATE_TIME, LocalDateTime.class, requestTime);
-        this.strictInsertFill(metaObject, CREATE_USER_ID, Long.class, userId);
-        this.strictInsertFill(metaObject, UPDATE_USER_ID, Long.class, userId);
+        this.strictInsertFill(metaObject, CREATE_DATE, LocalDateTime.class, requestTime);
+        this.strictInsertFill(metaObject, DONE_DATE, LocalDateTime.class, requestTime);
     }
 
     /**
@@ -64,21 +60,8 @@ public class OrderAutoSetMetaObjectAdvice implements MetaObjectHandler {
      */
     @Override
     public void updateFill(MetaObject metaObject) {
-        Long userId = getUserId();
         LocalDateTime requestTime = getRequestTime();
-
-        this.strictUpdateFill(metaObject, UPDATE_TIME, LocalDateTime.class, requestTime);
-        this.strictUpdateFill(metaObject, UPDATE_USER_ID, Long.class, userId);
-    }
-
-    private Long getUserId() {
-        Long userId = null;
-        try {
-            userId = WebContextUtils.getUserContext().getUserId();
-        } catch(Exception e) {
-            userId = Constants.DEFAULT_USER_ID;
-        }
-        return userId;
+        this.strictInsertFill(metaObject, DONE_DATE, LocalDateTime.class, requestTime);
     }
 
     private LocalDateTime getRequestTime() {

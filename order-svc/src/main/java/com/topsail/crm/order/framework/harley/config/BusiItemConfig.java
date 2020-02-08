@@ -10,7 +10,7 @@ public class BusiItemConfig {
 
     private String busiItemCode;
 
-    public BusiItemConfig(String busiItemCode) throws Exception {
+    public BusiItemConfig(String busiItemCode) {
         this.busiItemCode = busiItemCode;
     }
 

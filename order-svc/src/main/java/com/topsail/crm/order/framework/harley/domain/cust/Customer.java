@@ -13,5 +13,5 @@ public class Customer {
 
     private Long custId = new Long(2);
 
-    private Long custName;
+    private String custName = "nobody";
 }
