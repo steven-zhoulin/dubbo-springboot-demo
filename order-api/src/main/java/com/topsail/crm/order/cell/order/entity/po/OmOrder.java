@@ -1,5 +1,6 @@
 package com.topsail.crm.order.cell.order.entity.po;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.asiainfo.areca.framework.data.BaseEntity;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -127,7 +128,7 @@ public class OmOrder extends BaseEntity {
     @TableField("DONE_CODE")
     private Long doneCode;
 
-    @TableField("CREATE_DATE")
+    @TableField(value = "CREATE_DATE", fill = FieldFill.INSERT)
     private LocalDateTime createDate;
 
     @TableField("CREATE_OP_ID")
@@ -136,7 +137,7 @@ public class OmOrder extends BaseEntity {
     @TableField("CREATE_ORG_ID")
     private String createOrgId;
 
-    @TableField("DONE_DATE")
+    @TableField(value = "DONE_DATE", fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime doneDate;
 
     @TableField("OP_ID")
