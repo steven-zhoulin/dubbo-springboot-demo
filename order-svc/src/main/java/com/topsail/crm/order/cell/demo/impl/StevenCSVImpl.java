@@ -1,5 +1,6 @@
 package com.topsail.crm.order.cell.demo.impl;
 
+import com.asiainfo.areca.framework.annotation.RestResult;
 import com.topsail.crm.order.cell.demo.entity.po.Steven;
 import com.topsail.crm.order.cell.demo.interfaces.IStevenCSV;
 import com.topsail.crm.order.cell.demo.service.IStevenService;
@@ -9,10 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author Steven
@@ -27,15 +25,39 @@ public class StevenCSVImpl implements IStevenCSV {
     @Autowired
     private IStevenService stevenService;
 
+    @Override
     @ApiOperation("创建实例数据")
     @PostMapping("/createOrder")
-    @Override
     @Transactional(rollbackFor = Throwable.class, propagation = Propagation.REQUIRED)
+    @RestResult
     public Long createOrder(@RequestBody Steven steven) {
-
         stevenService.createOrder(steven);
         return steven.getId();
     }
 
+    @Override
+    @ApiOperation("根据 Id 逻辑删除订单")
+    @GetMapping("/deleteOrder/{id}")
+    @Transactional(rollbackFor = Throwable.class, propagation = Propagation.REQUIRED)
+    @RestResult
+    public void deleteOrder(@PathVariable("id") Long id) {
+        stevenService.removeById(id);
+    }
+
+    @Override
+    @ApiOperation("根据Id查订单数据")
+    @GetMapping("/queryOrder/{id}")
+    @RestResult
+    public Steven queryOrder(@PathVariable("id") Long id) {
+        return stevenService.getById(id);
+    }
+
+    @Override
+    @ApiOperation("根据主键进行数据更新")
+    @PostMapping("/updateOrder")
+    @RestResult
+    public void updateOrder(@RequestBody Steven steven) {
+        stevenService.updateById(steven);
+    }
 
 }

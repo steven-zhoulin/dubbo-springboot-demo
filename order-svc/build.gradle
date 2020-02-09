@@ -9,6 +9,6 @@ dependencies {
     compile project(':order-api')
     compile project(':upc-api')
 
-    compile fileTree(dir: '../lib', include: ['*.jar'])
+    compile fileTree(dir: '../libs', include: ['*.jar'])
 
 }

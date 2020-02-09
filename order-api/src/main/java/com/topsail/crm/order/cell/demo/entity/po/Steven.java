@@ -1,10 +1,7 @@
 package com.topsail.crm.order.cell.demo.entity.po;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import com.asiainfo.areca.framework.data.BaseEntity;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -45,10 +42,14 @@ public class Steven extends BaseEntity {
     @TableField("EMAIL")
     private String email;
 
-    @TableField(value = "CREATE_TIME", fill = FieldFill.INSERT)
-    private LocalDateTime createTime;
+    @TableField(value = "CREATE_DATE", fill = FieldFill.INSERT)
+    private LocalDateTime createDate;
 
-    @TableField(value = "UPDATE_TIME", fill = FieldFill.INSERT_UPDATE)
-    private LocalDateTime updateTime;
+    @TableField(value = "DONE_DATE", fill = FieldFill.INSERT_UPDATE)
+    private LocalDateTime doneDate;
+
+    @TableLogic
+    @TableField(value = "DELETED")
+    private Boolean deleted;
 
 }

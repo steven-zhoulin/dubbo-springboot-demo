@@ -27,13 +27,10 @@ public class StevenServiceImpl extends ServiceImpl<StevenMapper, Steven> impleme
 
     @Override
     public boolean createOrder(Steven steven) {
-
         // 获取序列，指定数据源名称 + 序列名
         Long nextval = dualService.nextval("crm1", "OM_ORDER$SEQ");
         Long id = Long.parseLong(RequestTimeHolder.getRequestTime("yyyyMMdd") + nextval);
-
         log.info("id: {}", id);
-
         steven.setId(id);
         return save(steven);
     }
