@@ -52,4 +52,8 @@ public class Steven extends BaseEntity {
     @TableField(value = "DELETED")
     private Boolean deleted;
 
+    @Version
+    @TableField(value = "VERSION")
+    private Integer version;
+
 }

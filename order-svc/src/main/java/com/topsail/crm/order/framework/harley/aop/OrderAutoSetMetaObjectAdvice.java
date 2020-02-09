@@ -9,9 +9,15 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 
 /**
- * 实现公共字段自动设置
+ * 实现公共字段自动填充，各业务模块自由定义。
+ * <p>
+ * 注意：
+ * <pre>
+ * 1. 只针对非主键的字段, 且该字段注解了 fill 并且字段名和字段属性能匹配到，才会进行填充。
+ * 2. 默认有值不覆盖。
+ * </pre>
  *
- * @author Steven
+ * @author Steven.zhou
  * @date 2019-04-28
  */
 @Slf4j

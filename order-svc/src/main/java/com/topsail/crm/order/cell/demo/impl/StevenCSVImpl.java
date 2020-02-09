@@ -1,6 +1,8 @@
 package com.topsail.crm.order.cell.demo.impl;
 
 import com.asiainfo.areca.framework.annotation.RestResult;
+import com.asiainfo.areca.framework.error.Asserts;
+import com.topsail.crm.order.cell.demo.DemoError;
 import com.topsail.crm.order.cell.demo.entity.po.Steven;
 import com.topsail.crm.order.cell.demo.interfaces.IStevenCSV;
 import com.topsail.crm.order.cell.demo.service.IStevenService;
@@ -11,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
 
 /**
  * @author Steven
@@ -31,6 +35,7 @@ public class StevenCSVImpl implements IStevenCSV {
     @Transactional(rollbackFor = Throwable.class, propagation = Propagation.REQUIRED)
     @RestResult
     public Long createOrder(@RequestBody Steven steven) {
+        steven.setDoneDate(LocalDateTime.now().minusDays(10));
         stevenService.createOrder(steven);
         return steven.getId();
     }
@@ -57,7 +62,8 @@ public class StevenCSVImpl implements IStevenCSV {
     @PostMapping("/updateOrder")
     @RestResult
     public void updateOrder(@RequestBody Steven steven) {
-        stevenService.updateById(steven);
+        boolean b = stevenService.updateById(steven);
+        Asserts.isTrue(b, DemoError.UPDATE_FAILURE);
     }
 
 }

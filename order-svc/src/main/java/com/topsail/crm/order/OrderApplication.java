@@ -24,7 +24,6 @@ public class OrderApplication {
     public static void main(String[] args) throws Throwable {
         System.setProperty("appframe.server.name", "app-node01-srv01");
         ApplicationContext context = SpringApplication.run(OrderApplication.class, args);
-
         SpringBootContextHelper.applicationContext = context;
         CsfBooter.main(args);
     }
