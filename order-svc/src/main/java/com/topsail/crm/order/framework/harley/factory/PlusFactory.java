@@ -3,23 +3,15 @@ package com.topsail.crm.order.framework.harley.factory;
 import com.asiainfo.areca.framework.scan.ClassFinder;
 import com.asiainfo.areca.framework.scan.IClassGenerator;
 import com.asiainfo.areca.framework.util.ArrayUtils;
+import com.asiainfo.areca.framework.util.SpringContextUtils;
 import com.topsail.crm.order.framework.harley.annotation.Plus;
-import com.topsail.crm.order.framework.harley.annotation.Workstation;
 import com.topsail.crm.order.framework.harley.context.Databus;
 import com.topsail.crm.order.framework.harley.context.DatabusManager;
 import com.topsail.crm.order.framework.harley.context.JobContext;
-import com.topsail.crm.order.framework.harley.context.Scene;
 import com.topsail.crm.order.framework.harley.interfaces.IPlus;
-import com.topsail.crm.order.framework.harley.interfaces.IWorkstation;
 import com.topsail.crm.order.framework.harley.utils.SPELExecutor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.expression.EvaluationContext;
-import org.springframework.expression.ExpressionParser;
-import org.springframework.expression.spel.SpelCompilerMode;
-import org.springframework.expression.spel.SpelParserConfiguration;
-import org.springframework.expression.spel.standard.SpelExpressionParser;
-import org.springframework.expression.spel.support.StandardEvaluationContext;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -34,11 +26,13 @@ import java.util.*;
 @Component
 public class PlusFactory {
 
-    private static Map<String, IPlus> cache = new HashMap<String, IPlus>();
+    private static Map<String, IPlus> cache = new HashMap<>();
 
     static {
         try {
-            ClassFinder.getInstance().loadClasses("com.topsail.crm.order.business.order", "file:*Plus", new IClassGenerator() {
+            ClassFinder classFinder = SpringContextUtils.getBean(ClassFinder.class);
+            classFinder.loadClasses("com.topsail.crm.order.business.order", "file:*Plus", new IClassGenerator() {
+
                 @Override
                 public void create(String className) throws Exception {
                     if (cache.containsKey(className)) {
@@ -49,7 +43,7 @@ public class PlusFactory {
                     if (!IPlus.class.isAssignableFrom(clazz)) {
                         return;
                     }
-                    Plus plusAnnotation = (Plus)clazz.getDeclaredAnnotation(Plus.class);
+                    Plus plusAnnotation = (Plus) clazz.getDeclaredAnnotation(Plus.class);
                     if (plusAnnotation == null) {
                         return;
                     }
@@ -60,6 +54,7 @@ public class PlusFactory {
 
                 /**
                  * 指定模糊匹配的jar文件名，开发模式不需要
+                 *
                  * @return
                  */
                 @Override
@@ -75,6 +70,7 @@ public class PlusFactory {
 
     /**
      * 获取处理器运行之后的插件
+     *
      * @param jobContext
      * @return
      * @throws Exception

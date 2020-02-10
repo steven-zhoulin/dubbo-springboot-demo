@@ -4,6 +4,7 @@ import com.asiainfo.areca.framework.interceptor.SqlPerformanceInterceptor;
 import com.asiainfo.areca.framework.mybatis.DataSourceKey;
 import com.asiainfo.areca.framework.mybatis.MyGlobalConfig;
 import com.asiainfo.areca.framework.mybatis.MySqlSessionTemplate;
+import com.asiainfo.areca.framework.threadlocal.RequestTimeHolder;
 import com.asiainfo.areca.framework.util.PackageUtils;
 import com.atomikos.jdbc.nonxa.AtomikosNonXADataSourceBean;
 import com.baomidou.mybatisplus.autoconfigure.SpringBootVFS;
@@ -13,12 +14,16 @@ import com.baomidou.mybatisplus.core.incrementer.IKeyGenerator;
 import com.baomidou.mybatisplus.core.parser.ISqlParser;
 import com.baomidou.mybatisplus.extension.incrementer.OracleKeyGenerator;
 import com.baomidou.mybatisplus.extension.parsers.BlockAttackSqlParser;
+import com.baomidou.mybatisplus.extension.parsers.DynamicTableNameParser;
+import com.baomidou.mybatisplus.extension.parsers.ITableNameHandler;
 import com.baomidou.mybatisplus.extension.plugins.OptimisticLockerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.SqlExplainInterceptor;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
+import com.topsail.crm.order.business.order.impl.SubscriberOrderServiceImpl;
 import com.topsail.crm.order.framework.harley.aop.OrderAutoSetMetaObjectAdvice;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.type.JdbcType;
@@ -60,7 +65,7 @@ public class MyBatisPlusConfig {
     private OrderAutoSetMetaObjectAdvice orderAutoSetMetaObjectAdvice;
 
     @Bean
-    public IKeyGenerator keyGenerator(){
+    public IKeyGenerator keyGenerator() {
         return new OracleKeyGenerator();
     }
 
@@ -183,22 +188,24 @@ public class MyBatisPlusConfig {
     @Bean
     public PaginationInterceptor paginationInterceptor() {
         PaginationInterceptor paginationInterceptor = new PaginationInterceptor();
-
-//        DynamicTableNameParser dynamicTableNameParser = new DynamicTableNameParser();
-//        dynamicTableNameParser.setTableNameHandlerMap(new HashMap<String, ITableNameHandler>(2) {{
-//            put("STEVEN", (metaObject, sql, tableName) -> {
-//                // metaObject 可以获取传入参数，这里实现你自己的动态规则
-//                String year = "_2018";
-//                int random = new Random().nextInt(10);
-//                if (random % 2 == 1) {
-//                    year = "_2019";
-//                }
-//                return tableName + year;
-//            });
-//        }});
-//        paginationInterceptor.setSqlParserList(Collections.singletonList(dynamicTableNameParser));
-
+        paginationInterceptor.setSqlParserList(Collections.singletonList(dynamicTableNameParser()));
         return paginationInterceptor;
+    }
+
+    private ISqlParser dynamicTableNameParser() {
+
+        // 动态表名 SQL 解析器
+        DynamicTableNameParser dynamicTableNameParser = new DynamicTableNameParser();
+        Map<String, ITableNameHandler> tableNameHandlerMap = new HashMap<>(50);
+        dynamicTableNameParser.setTableNameHandlerMap(tableNameHandlerMap);
+
+        // STEVEN 表
+        tableNameHandlerMap.put("STEVEN", (metaObject, sql, tableName) -> {
+            String suffix = "_" + RequestTimeHolder.getRequestTime("yyyyMM");
+            return StringUtils.joinWith("_", tableName, suffix);
+        });
+
+        return dynamicTableNameParser;
     }
 
     /**

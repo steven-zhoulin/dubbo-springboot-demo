@@ -3,6 +3,7 @@ package com.topsail.crm.order.cell.order.controller.impl;
 import com.asiainfo.areca.framework.error.Asserts;
 import com.asiainfo.areca.framework.scan.ClassFinder;
 import com.asiainfo.areca.framework.scan.IClassGenerator;
+import com.asiainfo.areca.framework.util.SpringContextUtils;
 import com.topsail.crm.order.cell.order.controller.ChangePasswdError;
 import com.topsail.crm.order.cell.order.controller.interfaces.IChangePasswdCSV;
 import com.topsail.crm.order.cell.order.dto.OrderDTO;
@@ -37,7 +38,7 @@ public class ChangePasswdCSVImpl implements IChangePasswdCSV {
         Asserts.notNull(user.getAccessNum(), ChangePasswdError.ACCESS_NUM_NOTNULL);
 
         try {
-            ClassFinder.getInstance().loadClasses("com.topsail", "file:*CSV", new IClassGenerator() {
+            SpringContextUtils.getBean(ClassFinder.class).loadClasses("com.topsail", "file:*CSV", new IClassGenerator() {
                 @Override
                 public void create(String className) throws Exception {
                     log.info("find class:{}", className);

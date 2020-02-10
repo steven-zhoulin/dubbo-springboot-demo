@@ -3,6 +3,7 @@ package com.topsail.crm.order.framework.harley.factory;
 import com.asiainfo.areca.framework.scan.ClassFinder;
 import com.asiainfo.areca.framework.scan.IClassGenerator;
 import com.asiainfo.areca.framework.util.ArrayUtils;
+import com.asiainfo.areca.framework.util.SpringContextUtils;
 import com.topsail.crm.order.cell.order.entity.dto.UserRequestDTO;
 import com.topsail.crm.order.framework.harley.annotation.Processor;
 import com.topsail.crm.order.framework.harley.annotation.Workstation;
@@ -33,7 +34,7 @@ public class WorkstationFactory {
 
     static {
         try {
-            ClassFinder.getInstance().loadClasses("com.topsail.crm.order", "file:*Workstation", new IClassGenerator() {
+            SpringContextUtils.getBean(ClassFinder.class).loadClasses("com.topsail.crm.order", "file:*Workstation", new IClassGenerator() {
                 @Override
                 public void create(String className) throws Exception {
                     if (workstationCache.containsKey(className)) {

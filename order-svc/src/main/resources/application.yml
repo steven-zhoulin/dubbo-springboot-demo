@@ -92,3 +92,11 @@ mybatis-plus:
       logic-not-delete-value: 0
   configuration:
     default-fetch-size: 512
+
+dynamic-tablename:
+  yyyy:
+    - DEMO_NIAN
+  yyyymm:
+    - DEMO_NIANYUE
+
+
