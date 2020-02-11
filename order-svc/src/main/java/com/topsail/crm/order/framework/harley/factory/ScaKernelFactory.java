@@ -22,7 +22,7 @@ public class ScaKernelFactory {
     public ScaKernel getScaKernel(String accessNum, String subscriberStatus) {
         ScaKernel sca = new ScaKernel();
 
-        UmSubscriber subscriber = this.subscriberService.getOne(new QueryWrapper<UmSubscriber>().lambda().eq(UmSubscriber::getAccessNum, "3145870250"));
+        UmSubscriber subscriber = this.subscriberService.getOne(new QueryWrapper<UmSubscriber>().lambda().eq(UmSubscriber::getAccessNum, accessNum));
         sca.setSubscriber(subscriber);
         return sca;
     }

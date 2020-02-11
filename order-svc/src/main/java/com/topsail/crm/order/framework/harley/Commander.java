@@ -2,10 +2,14 @@ package com.topsail.crm.order.framework.harley;
 
 import com.topsail.crm.order.cell.order.entity.dto.OrderResponseDTO;
 import com.topsail.crm.order.cell.order.entity.dto.OrderRequestDTO;
+import com.topsail.crm.order.cell.order.entity.dto.UserRequestDTO;
 import com.topsail.crm.order.framework.harley.context.Databus;
 import com.topsail.crm.order.framework.harley.context.DatabusManager;
 import com.topsail.crm.order.framework.harley.context.Scene;
 import com.topsail.crm.order.framework.harley.runtime.GeneralAssemblyShop;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @program: CRM-V0
@@ -32,6 +36,18 @@ public class Commander {
      */
     public Commander(OrderRequestDTO request) {
         this.request = request;
+        this.response = new OrderResponseDTO();
+    }
+
+    /**
+     * 构造函数， 传入用户级的请求对象
+     * @param request
+     */
+    public Commander(UserRequestDTO request) {
+        this.request = new OrderRequestDTO();
+        List<UserRequestDTO> userRequests = new ArrayList<UserRequestDTO>();
+        userRequests.add(request);
+        this.request.setUserRequests(userRequests);
         this.response = new OrderResponseDTO();
     }
 
